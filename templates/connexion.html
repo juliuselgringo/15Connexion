@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion</title>
+</head>
+<body>
+    <h1>Se connecter</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endwith %}
+    <form method="POST" id="connectForm">
+        <p><label for="email">email: </label>
+        <input type="text" id="email" name="email" required></p>
+        <p><label for="password">Mot de passe: </label><br>
+        <input type="password" id="password" name="password"></p>
+        <p><input type="submit" value="Envoyer" required></p>
+    </form>
+    <a href="{{ url_for('index') }}">créer un compte</a>
+    <script src="{{ url_for('static', filename='script2.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,226 @@
+main.py:
+````
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+import sqlite3
+
+
+app = Flask(__name__)
+app.secret_key = '1234'
+
+# Création database
+def init_db():
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute('''CREATE TABLE IF NOT EXISTS form_data
+              (id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, email TEXT, password TEXT)''')
+    conn.commit()
+    conn.close()
+
+# Lancement de la page
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
+# page connexion
+@app.route('/connexion')
+def connexion():
+    return render_template('connexion.html')
+
+# page accueil
+@app.route('/accueil')
+def accueil():
+    return render_template('accueil.html')
+
+#connexion
+@app.route('/connexion', methods=['GET', 'POST'])
+def login():
+    if request.method == "POST":
+        email = request.form['email']
+        password = request.form['password']
+
+        conn = sqlite3.connect('database.db')
+        c = conn.cursor()
+        c.execute("SELECT * FROM form_data WHERE email = ? AND password = ?", (email, password))
+        result = c.fetchone()
+        conn.close()
+
+        if result:
+            flash('Connexion réussie!', 'success')
+            return redirect(url_for('accueil'))
+        else:
+            flash('Email ou mot de passe incorrect!', 'error')
+
+    return render_template('connexion.html')
+
+# collecte des données vers database
+@app.route('/index', methods=['POST'])
+def submit():
+    if request.method == "POST":
+        data = request.get_json()
+        nom = data ['nom']
+        email = data ['email']
+        password = data ['password']
+
+        print(f"Reçu: {data}")
+
+        conn = sqlite3.connect('database.db')
+        c = conn.cursor()
+        c.execute("SELECT * FROM form_data WHERE email = ?", (email,))
+        result = c.fetchone()
+
+        if result:
+            return jsonify({'message': 'Email déjà utilisé!'}), 409
+        else:
+            c.execute("INSERT INTO form_data (nom, email, password) VALUES(?, ?, ?)", (nom, email, password))
+        conn.commit()
+        conn.close()
+        return jsonify({'message': 'Inscription réussie!'}), 201
+    
+    return render_template('index.html')
+
+# lancement des programmes
+if __name__ == "__main__":
+    init_db()
+    app.run(debug=True, port=5000)
+````
+index.html:
+
+````
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire</title>
+</head>
+<body>
+    <h1>Création de compte</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endwith %}
+    <form method="POST" id="contactForm">
+        <p><label for="nom">Nom : </label>
+        <input type="text" id="nom" name="nom" required></p>
+        <p><label for="email">email : </label>
+        <input type="text" id="email" name="email" required></p>
+        <p><label for="password">Mot de passe: </label><br>
+        <input type="password" id="password" name="password" required></p>
+        <p><input type="submit" value="Envoyer" required></p>
+    </form>
+    <a href="{{ url_for('connexion') }}">Se connecter</a>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+````
+
+connexion.html:
+
+````
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion</title>
+</head>
+<body>
+    <h1>Se connecter</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endwith %}
+    <form method="POST" id="connectForm">
+        <p><label for="email">email: </label>
+        <input type="text" id="email" name="email" required></p>
+        <p><label for="password">Mot de passe: </label><br>
+        <input type="password" id="password" name="password"></p>
+        <p><input type="submit" value="Envoyer" required></p>
+    </form>
+    <a href="{{ url_for('index' )}}">créer un compte</a>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+````
+
+accueil.html:
+````
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil</title>
+</head>
+<body>
+    <h1>Bienvenue !</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endwith %}
+    <a href="{{ url_for('connexion') }}">se déconnecter</a>
+</body>
+</html>
+````
+
+script.js:
+
+````
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('contactForm').addEventListener('submit', function(Event) {
+        Event.preventDefault();
+
+        const nom = document.getElementById("nom").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        
+        fetch('/index', {
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({nom, email, password})
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Success", data);
+            alert(data.message);
+        })
+        .catch((error) => {
+            console.error('Error', error);
+            alert('Erreur lors de la soumission du formulaire');
+        });
+
+    });
+
+    document.getElementById('connectForm').addEventListener('submit', function(Event) {
+        Event.preventDefault();
+    
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        
+        fetch('/connexion', {
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({email, password})
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Success", data);
+            alert('Connexion réussie!');
+        })
+        .catch((error) => {
+            console.log('Error', error);
+            alert('Erreur lors de la connexion');
+        })
+    });
+})
+
+
+````
