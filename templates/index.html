@@ -19,9 +19,13 @@
         <input type="text" id="email" name="email" required></p>
         <p><label for="password">Mot de passe: </label><br>
         <input type="password" id="password" name="password" required></p>
+        <p><label for="password-confirmation">Confirmer le mot de passe: </label><br>
+        <input type="password" id="password-confirmation" name="password-confirmation" required>
+        <button id="display-btn" type="button">Afficher</button></p>
         <p><input type="submit" value="Envoyer" required></p>
     </form>
-    <a href="{{ url_for('connexion') }}">Se connecter</a>
+
+    <a href="/connexion">Se connecter</a>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

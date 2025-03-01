@@ -64,9 +64,13 @@ def logout():
 def submit():
     if request.method == "POST":
         data = request.get_json()
-        nom = data ['nom']
-        email = data ['email']
-        password = data ['password']
+        nom = data['nom']
+        email = data['email']
+        password = data['password']
+        password_confirmation = data['passwordConfirmation']
+
+        if password != password_confirmation:
+            return jsonify({'message': 'Les mots de passe ne correspondent pas!'}), 400
 
         print(f"Reçu: {data}")
 
@@ -85,6 +89,21 @@ def submit():
     
     return render_template('index.html')
 
+# page de profil
+@app.route('/user-data', methods=['GET'])
+def user_data():
+    if request.method == "GET":
+        conn = sqlite3.connect('database.db')
+        c = conn.cursor()
+        c.execute("SELECT * FROM form_data WHERE id = ?", (session['user_id'],))
+        result = c.fetchone()
+        conn.close()
+
+        if result:
+            return jsonify({'nom': result[1], 'email': result[2], 'password': result[3]})
+        else:
+            return jsonify({'message': 'Utilisateur non trouvé!'}), 404
+        
 # lancement des programmes
 if __name__ == "__main__":
     init_db()

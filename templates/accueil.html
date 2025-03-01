@@ -12,6 +12,9 @@
             <div class="alert alert-{{ category }}">{{ message }}</div>
         {% endfor %}
     {% endwith %}
+    <button id="user-data-btn" type="button">Mon compte</button>
+    <form method="GET" id="user-data-form" display="none"></form>
     <a href="{{ url_for('logout') }}">se déconnecter</a>
+    <script src="{{ url_for('static', filename='script3.js') }}"></script>
 </body>
 </html>
