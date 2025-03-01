@@ -8,7 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch('/connexion', {
             method:'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache'
             },
             body: JSON.stringify({email, password})
         })
@@ -20,7 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 fetch('/accueil', {
                     method:'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Cache-Control': 'no-cache',
+                        'Pragma': 'no-cache'
                     },
                     body: JSON.stringify({message: data.message})
                 })

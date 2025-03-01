@@ -1,6 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, make_response, session
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
 import sqlite3
-
 
 app = Flask(__name__)
 app.secret_key = '1234'
@@ -61,7 +60,7 @@ def logout():
     return redirect(url_for('login'))
 
 # collecte des données vers database
-@app.route('/index', methods=['POST'])
+@app.route('/index', methods=['POST', 'GET'])
 def submit():
     if request.method == "POST":
         data = request.get_json()

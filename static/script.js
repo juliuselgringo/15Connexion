@@ -9,7 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch('/index', {
             method:'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache'
             },
             body: JSON.stringify({nom, email, password})
         })
