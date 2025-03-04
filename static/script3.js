@@ -1,12 +1,19 @@
 const userDataBtn = document.getElementById('user-data-btn');
 const userDataForm = document.getElementById('user-data-form');
+const modify = document.getElementById("modify");
+const cancel = document.getElementById("cancel");
+const displayBtn = document.getElementById("display-btn")
+let nameInput = document.getElementById("nom");
+let emailInput = document.getElementById("email");
+let passwordInput = document.getElementById("password");
+let passwordConfirmationInput = document.getElementById("password-confirmation");
 
-userDataBtn.addEventListener('click', function(event) {
-    userDataForm.style.display = 'flex';
-    userDataForm.style.flexDirection = 'column';
-    userDataForm.style.justifyItems = 'space-between';
-    const passwordConf = document.createElement('input');
 
+
+userDataBtn.addEventListener('click', () => {
+    
+    userDataForm.style.display = 'block';
+    
     fetch('/user-data', {
         method:'GET',
         headers: {
@@ -17,21 +24,16 @@ userDataBtn.addEventListener('click', function(event) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log("Success", data);
-        for (const [key, value] of Object.entries(data)) {
-            userDataBtn.style.cursor ='not-allowed';
-            userDataBtn.disabled = true;
-            const keyConst = document.createElement('label');
-            const valueConst= document.createElement('input');
-            keyConst.textContent = key;
-            keyConst.for = value;
-            valueConst.value = value;
-            valueConst.placeholder = value;
-            valueConst.id = key;
-            passwordConf.id = 'password-conf';
-            userDataForm.appendChild(keyConst);
-            userDataForm.appendChild(valueConst);
-            userDataForm.appendChild(passwordConf);
-        }
+        console.log("Success", data)
+        console.log(data.nom)
+        nameInput.value = data.nom
+        email.value = data.email
+        password.value = data.password
     })
+});
+
+
+displayBtn.addEventListener('click', () => {
+    passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+    passwordConfirmationInput.type = passwordConfirmationInput.type === 'password' ? 'text' : 'password';
 });

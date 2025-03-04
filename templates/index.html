@@ -4,28 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulaire</title>
+    <link rel="stylesheet" href="static/styles.css"> 
 </head>
 <body>
-    <h1>Création de compte</h1>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">{{ message }}</div>
-        {% endfor %}
-    {% endwith %}
-    <form method="POST" id="contactForm">
-        <p><label for="nom">Nom : </label>
-        <input type="text" id="nom" name="nom" required></p>
-        <p><label for="email">email : </label>
-        <input type="text" id="email" name="email" required></p>
-        <p><label for="password">Mot de passe: </label><br>
-        <input type="password" id="password" name="password" required></p>
-        <p><label for="password-confirmation">Confirmer le mot de passe: </label><br>
-        <input type="password" id="password-confirmation" name="password-confirmation" required>
-        <button id="display-btn" type="button">Afficher</button></p>
-        <p><input type="submit" value="Envoyer" required></p>
-    </form>
-
-    <a href="/connexion">Se connecter</a>
+    <main>
+        <h1>Création de compte</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+        <form method="POST" id="contactForm">
+            <p><label for="nom">Nom : </label></p>
+            <p><input type="text" id="nom" name="nom" required></p>
+            <p><label for="email">email : </label></p>
+            <p><input type="text" id="email" name="email" required></p>
+            <p><label for="password">Mot de passe: </label></p>
+            <p><input type="password" id="password" name="password" required></p>
+            <p><button id="display-btn" type="button">Afficher</button></p>
+            <p><label for="password-confirmation">Confirmer le mot de passe: </label></p>
+            <p><input type="password" id="password-confirmation" name="password-confirmation" required></p>
+            <p><input type="submit" value="Envoyer" id="submitBtn" required></p>
+            <p><a href="/connexion">Se connecter</a></p>
+        </form>
+    </main>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

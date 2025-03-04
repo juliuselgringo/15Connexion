@@ -1,0 +1,48 @@
+html{
+    background-color: grey;
+    text-align: center;
+}
+
+h1{
+    margin: auto;
+    margin-top: 5vh;
+    margin-bottom: 10vh;
+    text-align: center;
+    border: 1px solid black;
+}
+
+form{
+    width: fit-content;
+    margin: auto;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    border: 1px solid black;
+    text-align: center;
+}
+
+#submitBtn{
+    margin-bottom: 5vh;
+    margin-top: 5vh;
+}
+
+.alert{
+    text-align: center;
+}
+
+#user-data-btn{
+    margin-bottom: 5vh;
+}
+
+#modify{
+    background-color: rgb(111, 138, 111);
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+}
+
+#cancel{
+    background-color: rgb(137, 111, 111);
+}
+
+.hidden{
+    display: none;
+}

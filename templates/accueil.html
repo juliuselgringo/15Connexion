@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accueil</title>
+    <link rel="stylesheet" href="static/styles.css">
 </head>
 <body>
     <h1>Bienvenue !</h1>
@@ -13,7 +14,19 @@
         {% endfor %}
     {% endwith %}
     <button id="user-data-btn" type="button">Mon compte</button>
-    <form method="GET" id="user-data-form" display="none"></form>
+    <form method="GET" class="hidden" id="user-data-form" display="none">
+        <p><label for="nom">Nom : </label></p>
+        <p><input type="text" id="nom" name="nom" required></p>
+        <p><label for="email">email : </label></p>
+        <p><input type="text" id="email" name="email" required></p>
+        <p><label for="password">Mot de passe: </label></p>
+        <p><input type="password" id="password" name="password" required></p>
+        <p><button id="display-btn" type="button">Afficher</button></p>
+        <p><label for="password-confirmation">Confirmer le mot de passe: </label></p>
+        <p><input type="password" id="password-confirmation" name="password-confirmation" required></p>
+        <button type="button" id="modify">Valider les Modifications</button>
+        <button type="button" id="cancel">Annuler</button>
+    </form>
     <a href="{{ url_for('logout') }}">se déconnecter</a>
     <script src="{{ url_for('static', filename='script3.js') }}"></script>
 </body>
