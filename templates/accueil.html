@@ -14,7 +14,7 @@
         {% endfor %}
     {% endwith %}
     <button id="user-data-btn" type="button">Mon compte</button>
-    <form method="GET" class="hidden" id="user-data-form" display="none">
+    <form method="GET POST" class="hidden" id="user-data-form" display="none">
         <p><label for="nom">Nom : </label></p>
         <p><input type="text" id="nom" name="nom" required></p>
         <p><label for="email">email : </label></p>
@@ -24,7 +24,7 @@
         <p><button id="display-btn" type="button">Afficher</button></p>
         <p><label for="password-confirmation">Confirmer le mot de passe: </label></p>
         <p><input type="password" id="password-confirmation" name="password-confirmation" required></p>
-        <button type="button" id="modify">Valider les Modifications</button>
+        <button type="submit" id="modify">Valider les Modifications</button>
         <button type="button" id="cancel">Annuler</button>
     </form>
     <a href="{{ url_for('logout') }}">se déconnecter</a>
