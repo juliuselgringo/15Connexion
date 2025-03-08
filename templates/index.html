@@ -18,9 +18,18 @@
             <p><label for="nom">Nom : </label></p>
             <p><input type="text" id="nom" name="nom" required></p>
             <p><label for="email">email : </label></p>
-            <p><input type="text" id="email" name="email" required></p>
+            <p><input type="email" id="email" name="email" required></p>
             <p><label for="password">Mot de passe: </label></p>
-            <p><input type="password" id="password" name="password" required></p>
+            <div class="requirements">
+                <label for="required">Votre mot de passe doit contenir:</label>
+                <ul id="required">
+                    <li id="maj">au moins une Majuscule</li>
+                    <li id="min">au moins une minuscule</li>
+                    <li id="int">au moins un nombre</li>
+                    <li id="spe">au moins un caractère spécial parmis les suivants @$!%*?&</li>
+                </ul>
+            </div>
+            <p><input type="password" id="password" name="password" pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,10}$" required></p>
             <p><button id="display-btn" type="button">Afficher</button></p>
             <p><label for="password-confirmation">Confirmer le mot de passe: </label></p>
             <p><input type="password" id="password-confirmation" name="password-confirmation" required></p>
