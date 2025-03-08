@@ -3,6 +3,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const passwordInput = document.getElementById('password');
     const passwordConfirmationInput = document.getElementById('password-confirmation');
 
+    passwordInput.addEventListener("input", () => {
+        const maj = document.getElementById("maj");
+        const regMaj = /[A-Z]/;
+        regMaj.test(passwordInput.value) ? maj.style.color = "green" : maj.style.color = "red";
+        const min = document.getElementById("min");
+        const regMin = /[a-z]/;
+        regMin.test(passwordInput.value) ? min.style.color = "green" : min.style.color = "red";
+        const int = document.getElementById("int");
+        const regInt = /[\d]/;
+        regInt.test(passwordInput.value) ? int.style.color = "green" : int.style.color = "red";
+        const spe = document.getElementById("spe");
+        const regSpe = /[@$!%*?&]/;
+        regSpe.test(passwordInput.value) ? spe.style.color = "green" : spe.style.color = "red";
+
+    })
+
     displayBtn.addEventListener('click', function(event) {
         passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
         passwordConfirmationInput.type = passwordConfirmationInput.type === 'password' ? 'text' : 'password';

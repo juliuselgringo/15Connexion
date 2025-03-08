@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
+    <link rel="stylesheet" href="static/styles.css"> 
 </head>
 <body>
     <h1>Se connecter</h1>
@@ -13,13 +14,14 @@
         {% endfor %}
     {% endwith %}
     <form method="POST" id="connectForm">
-        <p><label for="email">email: </label>
-        <input type="text" id="email" name="email" required></p>
+        <p><label for="email">email: </label></p>
+        <p><input type="text" id="email" name="email" required></p>
         <p><label for="password">Mot de passe: </label><br>
-        <input type="password" id="password" name="password"></p>
-        <p><input type="submit" value="Envoyer" required></p>
+        <p><input type="password" id="password" name="password"></p>
+        <p><input type="submit" value="Envoyer" id="submitBtn" required></p>
+        <p><a href="{{ url_for('index') }}">créer un compte</a></p>
     </form>
-    <a href="{{ url_for('index') }}">créer un compte</a>
+    
     <script src="{{ url_for('static', filename='script2.js') }}"></script>
 </body>
 </html>
